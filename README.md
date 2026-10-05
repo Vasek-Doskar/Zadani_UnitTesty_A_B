@@ -1,50 +1,32 @@
-# Testování třídy Class1 (MSTest)
+# Zadání samostatné práce – Unit testy
 
-Tento projekt obsahuje jednotkové testy (unit testy) pro třídu `Class1` napsané pomocí testovacího rozhraní **MSTest**.
-
----
-
-## Přehled testovacích scénářů
-
-1. **`IsCreated_DefaultValue_ReturnsFalse`**
-   - **Cíl:** Ověřit, že výchozí hodnota vlastnosti `IsCreated` je `false` před voláním jakýchkoliv změn.
-2. **`Create_WhenCalled_SetsIsCreatedToTrue`**
-   - **Cíl:** Ověřit, že volání metody `Create()` změní hodnotu `IsCreated` na `true`.
-3. **`GetList_WhenCalled_ReturnsExpectedSequence`**
-   - **Cíl:** Ověřit, že metoda `GetList()` vrací očekávanou sekvenci čísel `[1, 2, 3, 4, 5]` v přesném pořadí.
+## Rozdělení skupin
+- **Skupina A:** `Kalkulacka.cs`
+- **Skupina B:** `ZpracovavacTextu.cs`
 
 ---
 
-## Jak testovat kolekce v MSTest: `CollectionAssert.AreEqual`
+## 📋 Pokyny k vypracování
 
-Při testování kolekcí v .NET nestačí použít běžný `Assert.AreEqual(expected, actual)`, protože ten u běžných tříd kolekcí (např. `List<T>`) porovnává **referenci na objekt**, nikoliv samotné prvky uvnitř kolekce.
-
-K porovnání obsahu dvoch kolekcí slouží třída **`CollectionAssert`**, konkrétně metoda **`CollectionAssert.AreEqual`**.
-
-### Jak `CollectionAssert.AreEqual` funguje:
-
-1. **Porovnává prvky podle pořadí:** Test projde úspěšně pouze v případě, že obě kolekce mají:
-   - Stejný počet prvků (délku/velikost).
-   - Stejné prvky na **stejných indexech** (pořadí záleží).
-
-2. **Porovnává jednotlivé prvky:** Metoda interně prochází prvky od indexu `0` a porovnává je přes `Equals()`.
+1. **Stažení souboru:** Každý si ze svého repozitáře nebo týmu stáhne třídu určenou pro svou skupinu.
+2. **Tvorba testů:** Vytvořte nový testovací projekt (MSTest) a napište unit testy pro metody ve vaší třídě.
+3. **Odevzdání:** Celý vypracovaný projekt (včetně testů) odešlete v termínu přes **MS Teams**.
 
 ---
 
-### Případ užití a ukázka kódu
+## ⚠️ Pravidla a omezení
 
-Chceme-li ověřit, že metoda `GetList()` vrací kolekci obsahující hodnoty `1` až `5`:
+* **Vypnuté pomůcky:** Vypněte si **GitHub Copilot** i všechny ostatní AI/kódovací našeptávače ve Visual Studiu.
+* **Povoleno:** Smíte používat výhradně své vlastní poznámky (např. ve Wordu).
+* **Dokumentace:** Pozorně sledujte **dokumentační komentáře** u jednotlivých metod – popisují očekávané chování i hraniční stavy.
+* **Pokrytí testů:** Nezapomínejte na testování **výjimek** (`Assert.ThrowsException`) a všech možných scénářů (vstupní hodnoty `null`, prázdné řetězce, hraniční hodnoty apod.).
+  
+## 💡 Nápověda: Porovnávání kolekcí a polí
+
+Pro ověřování výsledků metod, které vracejí pole nebo seznamy (např. `string[]` nebo `List<string>`), nepoužívejte klasický `Assert.AreEqual`. 
+
+Pro kolekce slouží třída **`CollectionAssert`**:
 
 ```csharp
-[TestMethod]
-public void GetList_WhenCalled_ReturnsExpectedSequence()
-{
-    // Arrange: Příprava očekávané kolekce prvků
-    var expected = new List<int> { 1, 2, 3, 4, 5 };
-
-    // Act: Zavolání testované metody
-    var actual = MujObj.GetList();
-
-    // Assert: Ověření obsahu kolekcí
-    CollectionAssert.AreEqual(expected, actual);
-}
+// Ověří, zda dvě kolekce obsahují přesně stejné prvky ve stejném pořadí
+CollectionAssert.AreEqual(ocekavanePole, skutecnePole);
